@@ -17,7 +17,7 @@ s = PointStage(point_list)
 
 
 plt.figure('SPLTV',figsize=(10,5))
-custom=plt.subplot(121,projection='3d')
+custom=plt.subplot(111,projection='3d')
 
 for lp in s.loops_list:
     x,y,z = [],[],[]

@@ -179,7 +179,6 @@ class PointLoop:
                     else:
                         tri_list.append(Triangle([sati_points[k], sati_points[k+1], prf[j][0]]))
             '''
-        print(len(tri_list))
         return tri_list
     
         
@@ -231,8 +230,6 @@ class PointStage:
         n = len(self.loops_list)
         all_triangle = list[Triangle]()
         for i in range(n-1):
-            print(self.loops_list)
-            print(1)
             all_triangle.extend((self.loops_list[i].connect_loop(self.loops_list[i+1])))
         m = len(self.loops_list[0].point_list)
         for i in range(m):
