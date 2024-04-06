@@ -1,5 +1,5 @@
-import math
-a = [1.3, 4.5, -5, 0.3, 4]
-a.sort(key = lambda a: -a)
-print(a)
-print(math.atan2(4,0))
+from Point import Point
+a = [Point([1, 1, 0]), Point([1, 2, 0]), Point([1, 5, 0]), Point([1, 9, 0])]
+a.sort(key = lambda a: a.coordinates["x"])
+for i in a:
+    print(i)
