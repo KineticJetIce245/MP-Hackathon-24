@@ -5,7 +5,8 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection  # appropriate import to
 
 
 point_list = list()
-for i in range(15):
+
+for i in range(14):
     x = (random.random()-0.5)*5
     y = (random.random()-0.5)*5
     z = 1+(random.random()-0.5)+i/5

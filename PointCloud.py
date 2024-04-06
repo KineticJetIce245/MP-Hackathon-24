@@ -112,6 +112,11 @@ class PointLoop:
                 tri_list.append(Triangle([sati_points[1], srf[i][0], srf[j][0]]))
                 tri_list.append(Triangle([sati_points[0], sati_points[1], srf[i][0]]))
                 continue
+            for k in range(o - 1):
+                tri_list.append(Triangle([sati_points[k], sati_points[k+1], srf[i][0]]))
+            tri_list.append(Triangle([sati_points[o-1], srf[j][0], srf[i][0]]))
+            
+            '''
             # 0, 1, 2, 3, 4, 5, 6 -> 0, 1, 2, 3 to first point; 3, 4, 5, 6 to the second
             if o % 2 == 1:
                 half_o = int(o / 2)
@@ -125,7 +130,8 @@ class PointLoop:
                         tri_list.append(Triangle([sati_points[k], sati_points[k+1], srf[i][0]]))
                     else:
                         tri_list.append(Triangle([sati_points[k], sati_points[k+1], srf[j][0]]))
-
+            '''
+            
         # point loop to self
         n = len(prf)
         for i in range(n):
@@ -154,6 +160,11 @@ class PointLoop:
             if o == 2:
                 tri_list.append(Triangle([sati_points[1], prf[i][0], prf[j][0]]))
                 tri_list.append(Triangle([sati_points[0], sati_points[1], prf[i][0]]))
+            
+            for k in range(o - 1):
+                tri_list.append(Triangle([sati_points[k], sati_points[k+1], srf[i][0]]))
+            tri_list.append(Triangle([sati_points[o-1], srf[j][0], srf[i][0]]))
+            '''
             # 0, 1, 2, 3, 4, 5, 6 -> 0, 1, 2, 3 to first point; 3, 4, 5, 6 to the second
             if o % 2 == 1:
                 half_o = int(o / 2)
@@ -167,7 +178,7 @@ class PointLoop:
                         tri_list.append(Triangle([sati_points[k], sati_points[k+1], prf[i][0]]))
                     else:
                         tri_list.append(Triangle([sati_points[k], sati_points[k+1], prf[j][0]]))
-
+            '''
         print(len(tri_list))
         return tri_list
     
