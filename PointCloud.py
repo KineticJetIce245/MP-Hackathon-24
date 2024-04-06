@@ -87,29 +87,23 @@ class PointLoop:
         n = len(srf)
         for i in range(n):
             j = (i + 1) % n
-            print('---------')
-            print(str(i) + "," + str(j))
             angle_range = [srf[i][1].coordinates['theta'], srf[j][1].coordinates['theta']]
             should_translate = False
             if angle_range[0] > angle_range[1]:
                 should_translate = True
-            print(angle_range)
             m = len(prf)
             sati_points = list[Point]()
             for k in range(m):
                 pt = prf[k][1]
                 p_theta = pt.coordinates['theta']
                 if (should_translate):
-                    print(p_theta)
                     if angle_range[1] >= p_theta >= -math.pi*2 or math.pi*2 >= p_theta >= angle_range[0]:
                         sati_points.append(prf[k][0]) # With original coordinate
                     continue
-                print(p_theta)
                 if angle_range[0] <= p_theta and p_theta < angle_range[1]:
                     sati_points.append(prf[k][0]) # With original coordinate
             o = len(sati_points)
             o_sum += o
-            print(o)
             if o == 0: continue
             if o == 1:
                 tri_list.append(Triangle([sati_points[0], srf[i][0], srf[j][0]]))
@@ -121,7 +115,6 @@ class PointLoop:
             # 0, 1, 2, 3, 4, 5, 6 -> 0, 1, 2, 3 to first point; 3, 4, 5, 6 to the second
             if o % 2 == 1:
                 half_o = int(o / 2)
-                print(half_o)
                 for k in range(half_o-1):
                     tri_list.append(Triangle([sati_points[k], sati_points[k+1], srf[i][0]]))
                     tri_list.append(Triangle([sati_points[k+half_o], sati_points[k+half_o+1], srf[j][0]]))
@@ -136,32 +129,25 @@ class PointLoop:
         # point loop to self
         n = len(prf)
         for i in range(n):
-            print('---------')
-            print(str(i) + "," + str(j))
             j = (i + 1) % n
             angle_range = [prf[i][1].coordinates['theta'], prf[j][1].coordinates['theta']]
             should_translate = False
             if angle_range[0] > angle_range[1]:
                 should_translate = True
-            print(angle_range)
             m = len(srf)
             sati_points = list[Point]()
             for k in range(m):
                 pt = srf[k][1]
                 p_theta = pt.coordinates['theta']
                 if (should_translate):
-                    print(p_theta)
                     if angle_range[1] >= p_theta >= -math.pi*2 or math.pi*2 >= p_theta >= angle_range[0]:
-                        print(p_theta)
                         sati_points.append(srf[k][0]) # With original coordinate
                     continue
-                print(p_theta)
                 if angle_range[0] <= p_theta and p_theta < angle_range[1]:
                     sati_points.append(srf[k][0]) # With original coordinate
                     
             o = len(sati_points)
             o_sum += o
-            print(o)
             if o == 0: continue
             if o == 1:
                 tri_list.append(Triangle([sati_points[0], prf[i][0], prf[j][0]]))
@@ -182,7 +168,6 @@ class PointLoop:
                     else:
                         tri_list.append(Triangle([sati_points[k], sati_points[k+1], prf[j][0]]))
 
-        print(o_sum)
         print(len(tri_list))
         return tri_list
     
@@ -233,9 +218,21 @@ class PointStage:
 
     def __create_mesh(self) -> list[Triangle]:
         n = len(self.loops_list)
-        all_triangle = list[Triangle]
+        all_triangle = list[Triangle]()
         for i in range(n-1):
-            all_triangle.extend(self.loops_list[i].connect_loop(self.loops_list[i+1]))
+            print(self.loops_list)
+            print(1)
+            all_triangle.extend((self.loops_list[i].connect_loop(self.loops_list[i+1])))
+        m = len(self.loops_list[0].point_list)
+        for i in range(m):
+            pt1 = self.loops_list[0].point_list[i]
+            pt2 = self.loops_list[0].point_list[(i+1)%m]
+            all_triangle.append(Triangle([self.loops_list[0].center_of_mass, pt1, pt2]))
+        o = len(self.loops_list[-1].point_list)
+        for i in range(o):
+            pt1 = self.loops_list[-1].point_list[i]
+            pt2 = self.loops_list[-1].point_list[(i+1)%o]
+            all_triangle.append(Triangle([self.loops_list[-1].center_of_mass, pt1, pt2]))
         return all_triangle
     # Divide the point clouds to loops
     # Deprecated method

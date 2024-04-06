@@ -11,6 +11,7 @@ for i in range(15):
     z = 1+(random.random()-0.5)+i/5
     point_list.append(Point([x,y,z]))
 
+print(point_list)
 s = PointStage(point_list)
 
 
