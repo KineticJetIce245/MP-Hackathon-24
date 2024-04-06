@@ -1,22 +1,23 @@
 from PointCloud import *
 import random
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection  # appropriate import to draw 3d polygons
+
 
 point_list = list()
-for i in range(30):
-    x = (random.random()-0.5)*10
-    y = (random.random()-0.5)*10
-    z = (random.random()-0.5)*10
+for i in range(15):
+    x = (random.random()-0.5)*5
+    y = (random.random()-0.5)*5
+    z = 1+(random.random()-0.5)+i/5
     point_list.append(Point([x,y,z]))
 
 s = PointStage(point_list)
-lps = s.loopdify()
-for lp in lps:
-    print(lp)
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-for lp in lps:
+
+
+plt.figure('SPLTV',figsize=(10,5))
+custom=plt.subplot(121,projection='3d')
+
+for lp in s.loops_list:
     x,y,z = [],[],[]
     for pt in lp.point_list:
         x.append(pt.coordinates['x'])
@@ -25,6 +26,27 @@ for lp in lps:
     x.append(lp.point_list[0].coordinates['x'])
     y.append(lp.point_list[0].coordinates['y'])
     z.append(lp.point_list[0].coordinates['z'])
-    ax.scatter(x,y,z, c='r',s=100)
-    ax.plot(x,y,z, color='r')
+    custom.scatter(x,y,z, c='r',s=100)
+    custom.plot(x,y,z, color='r')
+    x,y,z = [],[],[]
+    x.append(lp.center_of_mass.coordinates['x'])
+    y.append(lp.center_of_mass.coordinates['y'])
+    z.append(lp.center_of_mass.coordinates['z'])
+    custom.scatter(x,y,z, c='g',s=100)
+    
+
+for tri in s.mesh_list:
+    #x-2y+z=6
+    x1=tri.give_eu_cord_scatter()[0]
+    y1=tri.give_eu_cord_scatter()[1]
+    z1=tri.give_eu_cord_scatter()[2]  # z1 should have 3 coordinates, right?
+    custom.scatter(x1,y1,z1)
+
+    # 1. create vertices from points
+    verts = [list(zip(x1, y1, z1))]
+    # 2. create 3d polygons and specify parameters
+    srf = Poly3DCollection(verts, alpha=.25, facecolor='#800000')
+    # 3. add polygon to the figure (current axes)
+    plt.gca().add_collection3d(srf)
+
 plt.show()
