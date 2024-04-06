@@ -1,7 +1,7 @@
 from PointCloud import *
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-
+# a set of points
 
 s = PointStage([
     Point([1,3,3]),

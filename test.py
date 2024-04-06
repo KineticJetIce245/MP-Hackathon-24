@@ -2,7 +2,7 @@ from PointCloud import *
 import random
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection  # appropriate import to draw 3d polygons
-
+# Random number set just run the file
 
 point_list = list()
 
