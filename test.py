@@ -12,9 +12,11 @@ for i in range(14):
     z = 1+(random.random()-0.5)+i/5
     point_list.append(Point([x,y,z]))
 
-print(point_list)
 s = PointStage(point_list)
-
+mesh = list()
+for tri in s.mesh_list:
+    mesh.append(tri.give_eu_cord())
+print("Total Area:" + str(Area_pointcloud.calculate_mesh_area(mesh)))
 
 plt.figure('SPLTV',figsize=(10,5))
 custom=plt.subplot(111,projection='3d')

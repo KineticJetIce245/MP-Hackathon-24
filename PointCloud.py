@@ -1,9 +1,8 @@
 import math
-
-
+import Area_pointcloud
 #class with coordinate attributes , initialize with coordinates,
 #give coordinate (function that allows to give code)
-#put it into one dictionnary
+#put it into one dictionary
 class Point:
     def __init__(self, coordinate: list[float]) -> None:
         self.coordinates = {'x': coordinate[0], 'y': coordinate[1], 'z': coordinate[2]}
@@ -38,6 +37,7 @@ class Triangle:
     def __init__(self, vertexes: list[Point]) -> None:
         self.vertexes = vertexes
 
+    # Output for the plotting in matplotlib
     # [x1, x2, x3], [y1, y2, y3], [z1, z2, z3]
     def give_eu_cord_scatter(self) -> list[list]:
         return [
@@ -45,7 +45,14 @@ class Triangle:
             [self.vertexes[0].coordinates['y'], self.vertexes[1].coordinates['y'], self.vertexes[2].coordinates['y']],
             [self.vertexes[0].coordinates['z'], self.vertexes[1].coordinates['z'], self.vertexes[2].coordinates['z']]
                 ]
+    def give_eu_cord(self) -> list[list]:
+        return [
+            [self.vertexes[0].coordinates['x'], self.vertexes[0].coordinates['y'], self.vertexes[0].coordinates['z']],
+            [self.vertexes[1].coordinates['x'], self.vertexes[1].coordinates['y'], self.vertexes[1].coordinates['z']],
+            [self.vertexes[2].coordinates['x'], self.vertexes[2].coordinates['y'], self.vertexes[2].coordinates['z']]
+                ]
 
+# Loop of points
 class PointLoop:
     def __init__(self, loop: list[Point]) -> None:
         self.point_list = loop
@@ -77,6 +84,7 @@ class PointLoop:
         
         self.point_list = re_org_list
     
+    # Connect two loops together
     def connect_loop(self, point_loop: 'PointLoop') -> list[Triangle]:
         srf = self.ref_list
         prf = point_loop.ref_list
@@ -116,6 +124,7 @@ class PointLoop:
                 tri_list.append(Triangle([sati_points[k], sati_points[k+1], srf[i][0]]))
             tri_list.append(Triangle([sati_points[o-1], srf[j][0], srf[i][0]]))
             
+            # deprecated code
             '''
             # 0, 1, 2, 3, 4, 5, 6 -> 0, 1, 2, 3 to first point; 3, 4, 5, 6 to the second
             if o % 2 == 1:
@@ -164,6 +173,8 @@ class PointLoop:
             for k in range(o - 1):
                 tri_list.append(Triangle([sati_points[k], sati_points[k+1], srf[i][0]]))
             tri_list.append(Triangle([sati_points[o-1], srf[j][0], srf[i][0]]))
+            
+            # deprecated code
             '''
             # 0, 1, 2, 3, 4, 5, 6 -> 0, 1, 2, 3 to first point; 3, 4, 5, 6 to the second
             if o % 2 == 1:
@@ -225,7 +236,8 @@ class PointStage:
         
         loops.append(PointLoop(loop))
         return (loops)
-
+    
+    # create the mesh using connect_loop method
     def __create_mesh(self) -> list[Triangle]:
         n = len(self.loops_list)
         all_triangle = list[Triangle]()
@@ -242,6 +254,7 @@ class PointStage:
             pt2 = self.loops_list[-1].point_list[(i+1)%o]
             all_triangle.append(Triangle([self.loops_list[-1].center_of_mass, pt1, pt2]))
         return all_triangle
+    
     # Divide the point clouds to loops
     # Deprecated method
     def __deprecated_loopdify(self) -> list[PointLoop]:

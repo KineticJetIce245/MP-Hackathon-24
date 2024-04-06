@@ -34,4 +34,4 @@ mesh = [
 
 # Calculate the surface area of the mesh
 area = calculate_mesh_area(mesh)
-print(f"Total Surface Area of the Mesh: {area}")
+
